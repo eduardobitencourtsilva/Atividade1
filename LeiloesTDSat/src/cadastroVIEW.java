@@ -1,3 +1,6 @@
+
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -142,15 +145,31 @@ public class cadastroVIEW extends javax.swing.JFrame {
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         ProdutosDTO produto = new ProdutosDTO();
         String nome = cadastroNome.getText();
-        String valor = cadastroValor.getText();
-        String status = "A Venda";
-        produto.setNome(nome);
-        produto.setValor(Integer.parseInt(valor));
-        produto.setStatus(status);
         
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+        int valor = 0;
         
+        try {
+           valor  = Integer.parseInt(cadastroValor.getText());
+        }
+        catch(NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Por favor, insira um valor númerico.");
+            valor = -1;
+        }
+        
+        if (valor > 0 && !nome.equals("")) {
+            String status = "A Venda";
+
+            produto.setNome(nome);
+            produto.setValor(valor);
+            produto.setStatus(status);
+
+            ProdutosDAO produtodao = new ProdutosDAO();
+            produtodao.cadastrarProduto(produto);
+            JOptionPane.showMessageDialog(null, "O produto foi cadastrado no sistema.");
+        }
+        else if (valor != -1) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto. Por favor, verifique se os dados estão corretos.");
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
