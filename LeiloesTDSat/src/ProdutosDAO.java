@@ -95,4 +95,17 @@ public class ProdutosDAO {
             JOptionPane.showMessageDialog(null, "Erro ao vender produto. Não há produto de id " + id + ".");
         }
     }
+    
+    public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+        listagem = listarProdutos();
+        
+        ArrayList<ProdutosDTO> produtos = new ArrayList<ProdutosDTO>();
+
+        for (ProdutosDTO p : listagem) {
+            if (p.getStatus().equals("Vendido"))
+                produtos.add(p);
+        }
+        
+        return produtos;
+    }
 }
