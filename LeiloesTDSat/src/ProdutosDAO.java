@@ -63,5 +63,36 @@ public class ProdutosDAO {
             Logger.getLogger(ProdutosDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listagem;
-    }      
+    }   
+    
+    public void venderProduto(int id) {
+        ArrayList<ProdutosDTO> produtos = listarProdutos();
+        
+        ProdutosDTO produto = null;
+        
+        for (ProdutosDTO p : produtos) {
+            if (p.getId() == id)
+                produto = p;
+        }
+        
+        if (produto != null) {
+            
+            try {
+                conn = new conectaDAO().connectDB();
+                prep = conn.prepareStatement("update produtos set status='Vendido' where id=?");
+                prep.setInt(1, id);
+                prep.executeUpdate();
+                
+                produto.setStatus("vendido");
+
+                JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+            }
+            catch (SQLException ex) {
+                Logger.getLogger(ProdutosDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Erro ao vender produto. Não há produto de id " + id + ".");
+        }
+    }
 }
